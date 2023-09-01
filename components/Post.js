@@ -7,6 +7,7 @@ import {
   BookmarkIcon,
   FaceSmileIcon,
 } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconFilled } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import {
@@ -23,6 +24,7 @@ export default function Post({ caption, key, username, userImg, img, id }) {
   const { data: session } = useSession();
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -69,7 +71,12 @@ export default function Post({ caption, key, username, userImg, img, id }) {
       {session && (
         <div className="flex justify-between px-4 pt-4">
           <div className="flex space-x-4">
-            <HeartIcon className="btn" />
+            {hasLiked ? (
+              <HeartIconFilled className="text-red-400 btn" />
+            ) : (
+              <HeartIcon className=" btn" />
+            )}
+
             <ChatBubbleOvalLeftEllipsisIcon className="btn" />
           </div>
           <BookmarkIcon className="btn" />
